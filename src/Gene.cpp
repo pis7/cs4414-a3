@@ -28,7 +28,18 @@ int Gene::get_id() const {
     return id;
 }
 
-bool operator<(const Gene &a, const Gene &b)
-{
-   return a.get_gene() < b.get_gene();
+void Gene::set_id(int id_) {
+    this->id = id_;
+}
+
+bool operator<(const Gene &a, const Gene &b) {
+    if (a.gene.size() != b.gene.size()) {
+        return a.gene.size() < b.gene.size();
+    } else {
+        return a.gene < b.gene;
+    }
+}
+
+bool operator==(const Gene &a, const Gene &b) {
+   return a.gene == b.gene;
 }

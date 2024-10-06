@@ -5,7 +5,7 @@
 #include <string>
 #include <vector>
 
-#include "Gene.h"
+#include "Gene.hpp"
 
 class Animal
 {

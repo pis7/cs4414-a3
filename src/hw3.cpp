@@ -1,8 +1,9 @@
 #include <list>
 #include <vector>
 #include <functional>
+#include <iostream>
 
-#include "Animal.h"
+#include "Animal.hpp"
 
 // from Sagar's wc++
 std::vector<std::filesystem::path> find_all_files(
@@ -30,6 +31,18 @@ std::vector<std::filesystem::path> find_all_files(
 // 2. the name of the directory containing the species data
 int main(int argc, char *argv[])
 {
+    if (argc != 2) {
+        std::cerr << "Invalid number of program arguments!" << std::endl;
+        return -1;
+    }
+
+    auto dat_file = [](const std::string& str) -> bool {
+        return (str.size() >= 4 && str.substr(str.size() - 4) == ".dat");
+    };
+
+    std::filesystem::path fs_path = std::string(argv[1]);
+    auto file_vec = find_all_files(fs_path, dat_file);
+    std::cout << "done!" << std::endl;
     /*** TODO: implement main function
      * 1. read the species-data directory from the command line
      * 2. read all the .dat files in the directory (using Sagar's code, if you like)

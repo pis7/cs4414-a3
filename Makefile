@@ -1,5 +1,5 @@
 .SILENT:
-.PHONY: clean run
+.PHONY: clean run debug zip
 
 DIR = SpeciesData
 CFLAGS = -Wall
@@ -15,5 +15,9 @@ debug: CFLAGS += -g
 debug: build/hw3
 	gdb ./build/hw3
 
+zip:
+	zip -r hw3.zip src/
+
 clean:
 	rm -rf build/
+	rm -rf *.zip

@@ -13,10 +13,10 @@ run: build/hw3
 
 debug: CFLAGS += -g
 debug: build/hw3
-	gdb ./build/hw3
+	gdb ./$<
 
 zip:
-	zip -r hw3.zip src/
+	zip -rj hw3.zip src/
 
 clean:
 	rm -rf build/

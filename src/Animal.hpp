@@ -2,13 +2,11 @@
 
 #include <filesystem>
 #include <fstream>
-#include <string>
 #include <vector>
 
 #include "Gene.hpp"
 
-class Animal
-{
+class Animal {
 public:
     Animal();
     Animal(std::ifstream& file);
@@ -19,7 +17,7 @@ public:
     void set_dna_gene_id(const Gene& set_gene, int id_);
     std::string get_name() const;
     friend bool operator<(const Animal& a, const Animal& b);
-    bool is_sibling(const Animal& other);
+    int distance(const Animal& other) const;
 private:
     std::string name;
     std::string latinName;
@@ -29,4 +27,5 @@ private:
 
     std::string return_next_content(std::ifstream& dat_file);
     void extract_genes(std::string dna_str);
+    bool is_sibling(const Animal& other) const;
 };

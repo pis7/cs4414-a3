@@ -76,7 +76,7 @@ bool operator<(const Animal& a, const Animal& b) {
     return a.name < b.name;
 };
 
-bool Animal::is_sibling(const Animal& other) {
+bool Animal::is_sibling(const Animal& other) const {
     for (const auto& gene_a : dna) {
         for (const auto& gene_b : other.get_dna()) {
             if (gene_a.get_gene() == gene_b.get_gene()) return true;
@@ -84,4 +84,35 @@ bool Animal::is_sibling(const Animal& other) {
     }
 
     return false;
+}
+
+int Animal::distance(const Animal& other) const {
+    if (is_sibling(other)) return 100000;
+
+    int sum_a = 0;
+    int closest_dist, this_dist;
+    for (const auto& gene_a : dna) {
+        closest_dist = gene_a.distance(other.get_dna()[0]);
+        for (const auto& gene_b : other.get_dna()) {
+            this_dist = gene_a.distance(gene_b);
+            if (this_dist < closest_dist) {
+                closest_dist = this_dist;
+            }
+        }
+        sum_a += closest_dist;
+    }
+
+    int sum_b = 0;
+    for (const auto& gene_b : other.get_dna()) {
+        closest_dist = gene_b.distance(dna[0]);
+        for (const auto& gene_a : dna) {
+            this_dist = gene_a.distance(gene_b);
+            if (this_dist < closest_dist) {
+                closest_dist = this_dist;
+            }
+        }
+        sum_b += closest_dist;
+    }
+
+    return (sum_a + sum_b)/2;
 }

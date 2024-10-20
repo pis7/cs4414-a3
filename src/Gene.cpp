@@ -52,7 +52,7 @@ bool operator==(const Gene &a, const Gene &b) {
     return a.gene == b.gene;
 }
 
-int Gene::simple_score(std::string g0, std::string g1) {
+int Gene::simple_score(std::string g0, std::string g1) const {
     std::unordered_map<char, int> g0_chars;
     std::unordered_map<char, int> g1_chars;
 
@@ -91,7 +91,7 @@ int Gene::simple_score(std::string g0, std::string g1) {
     return total_cost;
 }
 
-int Gene::distance_recursive(std::string g0, std::string g1) {
+int Gene::distance_recursive(std::string g0, std::string g1) const {
 
     // One of the strings is empty
     if (g0.length() == 0) return g1.length() * ONLY_IN_ONE_COST;
@@ -146,9 +146,9 @@ int Gene::distance_recursive(std::string g0, std::string g1) {
     return simple_score(g0_l, g1_l) + std::min(distance_recursive(g0_r, g1_r), distance_recursive(g1_r, g0_r));
 }
 
-int Gene::distance(const Gene& a, const Gene& b) {
-    std::string g0 = a.get_gene();
-    std::string g1 = b.get_gene();
+int Gene::distance(const Gene& other) const {
+    std::string g0 = gene;
+    std::string g1 = other.get_gene();
 
     if (g0 == g1) return 0;
 

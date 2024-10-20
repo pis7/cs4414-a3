@@ -1,8 +1,7 @@
 #include <list>
 #include <functional>
 #include <iostream>
-
-#include "Animal.hpp"
+#include "PhylogenyTree.hpp"
 
 // From Sagar's wc++
 std::vector<std::filesystem::path> find_all_files(
@@ -25,19 +24,17 @@ std::vector<std::filesystem::path> find_all_files(
     return std::vector<std::filesystem::path>(std::make_move_iterator(files_to_sweep.begin()), std::make_move_iterator(files_to_sweep.end()));
 }
 
-
-int main(int argc, char *argv[])
-{
+int main(int argc, char *argv[]) {
 
     // Confirm correct argyments
-    if (argc != 2) {
+    if (argc != 3) {
         std::cerr << "Invalid number of program arguments!" << std::endl;
         return -1;
     }
 
     // Get all .dat files
     auto file_vec = find_all_files(
-        std::string(argv[1]), 
+        "SpeciesData", 
         [](const std::string& str) -> bool {
             return (str.size() >= 4 && str.substr(str.size() - 4) == ".dat");
         }
@@ -85,57 +82,4 @@ int main(int argc, char *argv[])
     }
 
 
-    // Print out all genes
-    for (const auto& gene : all_genes) {
-        std::cout << "G" << gene.get_id() << "=" << gene.get_gene() << std::endl; 
-    }
-
-    std::cout << std::endl;
-
-    // Print out gene comparison matrix
-    for (size_t r = 0; r < all_genes.size() + 1; r++) {
-        for (size_t c = 0; c < all_genes.size(); c++) {
-            if (r == 0) { // Print column names on first row
-                std::cout << "G" << c;
-            } else {
-                std::cout << all_genes[r - 1].distance(all_genes[c]);
-            }
-            if (c != all_genes.size() - 1) std::cout << '\t';
-            else std::cout << std::endl;
-        }
-    }
-
-    std::cout << std::endl;
-
-    // Print out all animals
-    for (const auto& animal : animals) {
-        std::cout << "S" << animal.get_id() << "=" << animal.get_name() <<": Genes [";
-
-        int size = animal.get_dna().size();
-        int count = 0;
-        for (const auto& gene : animal.get_dna()) {
-            ++count;
-            std::cout << gene.get_id();
-            if (count != size) std::cout << ", ";
-        }
-
-        std::cout << "]" << std::endl;
-    }
-
-    std::cout << std::endl;
-
-    // Print out animal comparison matrix
-    for (size_t r = 0; r < animals.size() + 1; r++) {
-        for (size_t c = 0; c < animals.size(); c++) {
-            if (r == 0) { // Print column names on first row
-                std::cout << "S" << c;
-            } else {
-                std::cout << animals[r - 1].distance(animals[c]);
-            }
-            if (c != animals.size() - 1) std::cout << '\t';
-            else std::cout << std::endl;
-        }
-    }
-
-    return 0;
 }

@@ -11,6 +11,7 @@ public:
     std::string get_gene() const;
     int get_id() const;
     void set_id(int id_);
+    static void unique_push_back(std::vector<Gene>& gene_arr, const Gene& gene);
     friend bool operator<(const Gene& a, const Gene& b);
     friend bool operator==(const Gene& a, const Gene& b);
     static int distance(const Gene& a, const Gene& b);

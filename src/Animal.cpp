@@ -75,3 +75,13 @@ std::string Animal::get_name() const {
 bool operator<(const Animal& a, const Animal& b) {
     return a.name < b.name;
 };
+
+bool Animal::is_sibling(const Animal& other) {
+    for (const auto& gene_a : dna) {
+        for (const auto& gene_b : other.get_dna()) {
+            if (gene_a.get_gene() == gene_b.get_gene()) return true;
+        }
+    }
+
+    return false;
+}

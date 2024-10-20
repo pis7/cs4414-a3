@@ -12,8 +12,8 @@ run: build/hw3
 	./$< ${DIR}
 
 debug: CFLAGS += -g
-debug: build/hw3
-	gdb ./$<
+debug: clean build/hw3
+	gdb ./build/hw3
 
 zip:
 	zip -rj hw3.zip src/

@@ -19,6 +19,7 @@ public:
     void set_dna_gene_id(const Gene& set_gene, int id_);
     std::string get_name() const;
     friend bool operator<(const Animal& a, const Animal& b);
+    bool is_sibling(const Animal& other);
 private:
     std::string name;
     std::string latinName;

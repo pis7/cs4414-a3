@@ -49,34 +49,14 @@ void Animal::extract_genes(std::string dna_str) {
     }
 }
 
-// return copy of dna vector so member genes not modified
-std::vector<Gene> Animal::get_dna() const {
-    return dna;
-}
-
-int Animal::get_id() const {
-    return id;
-}
-
 void Animal::set_dna_gene_id(const Gene& set_gene, int id_) {
     for (auto& gene : dna) {
-        if (gene == set_gene) gene.set_id(id_);
+        if (gene.get_gene() == set_gene.get_gene()) gene.set_id(id_);
     }
 }
 
-void Animal::set_id(int id_) {
-    this->id = id_;
-}
-
-std::string Animal::get_name() const {
-    return name;
-}
-
-bool operator<(const Animal& a, const Animal& b) {
-    return a.name < b.name;
-};
-
 bool Animal::is_sibling(const Animal& other) const {
+    if (*this == other) return false; // Cannot be sibling of self
     for (const auto& gene_a : dna) {
         for (const auto& gene_b : other.get_dna()) {
             if (gene_a.get_gene() == gene_b.get_gene()) return true;

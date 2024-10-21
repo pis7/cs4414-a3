@@ -1,0 +1,3 @@
+/home/pis7/cs4414/a3/build/CMakeFiles/ptree.dir
+/home/pis7/cs4414/a3/build/CMakeFiles/edit_cache.dir
+/home/pis7/cs4414/a3/build/CMakeFiles/rebuild_cache.dir

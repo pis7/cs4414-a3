@@ -1,6 +1,5 @@
-#include <list>
 #include <functional>
-#include <iostream>
+
 #include "PhylogenyTree.hpp"
 
 // From Sagar's wc++
@@ -24,7 +23,8 @@ std::vector<std::filesystem::path> find_all_files(
     return std::vector<std::filesystem::path>(std::make_move_iterator(files_to_sweep.begin()), std::make_move_iterator(files_to_sweep.end()));
 }
 
-int main(int argc, char *argv[]) {
+int main(int argc, char *argv[])
+{
 
     // Confirm correct argyments
     if (argc != 3) {
@@ -34,7 +34,7 @@ int main(int argc, char *argv[]) {
 
     // Get all .dat files
     auto file_vec = find_all_files(
-        "SpeciesData", 
+        ".", 
         [](const std::string& str) -> bool {
             return (str.size() >= 4 && str.substr(str.size() - 4) == ".dat");
         }
@@ -82,4 +82,61 @@ int main(int argc, char *argv[]) {
     }
 
 
+    // Print out all genes
+    for (const auto& gene : all_genes) {
+        std::cout << "G" << gene.get_id() << "=" << gene.get_gene() << std::endl; 
+    }
+
+    std::cout << std::endl;
+
+    // Print out gene comparison matrix
+    for (size_t r = 0; r < all_genes.size() + 1; r++) {
+        for (size_t c = 0; c < all_genes.size(); c++) {
+            if (r == 0) { // Print column names on first row
+                std::cout << "G" << c << '\t';
+            } else {
+                std::cout << all_genes[r - 1].distance(all_genes[c]) << '\t';
+            }
+            if (c == all_genes.size() - 1) std::cout << std::endl;
+        }
+    }
+
+    std::cout << std::endl;
+
+    // Print out all animals
+    for (const auto& animal : animals) {
+        std::cout << "S" << animal.get_id() << "=" << animal.get_name() <<": Genes [";
+
+        int size = animal.get_dna().size();
+        int count = 0;
+        for (const auto& gene : animal.get_dna()) {
+            ++count;
+            std::cout << gene.get_id();
+            if (count != size) std::cout << ", ";
+        }
+
+        std::cout << "]" << std::endl;
+    }
+
+    std::cout << std::endl;
+
+    // Print out animal comparison matrix
+    for (size_t r = 0; r < animals.size() + 1; r++) {
+        for (size_t c = 0; c < animals.size(); c++) {
+            if (r == 0) { // Print column names on first row
+                std::cout << "S" << c << '\t';
+            } else {
+                std::cout << animals[r - 1].distance(animals[c]) << '\t';
+            }
+            if (c == animals.size() - 1) std::cout << std::endl;
+        }
+    }
+
+    std::cout << std::endl;
+
+    // Construct and print tree
+    PhylogenyTree phy_tree(animals[atoi(argv[1])], animals);
+    phy_tree.print_tree(atoi(argv[2]));
+
+    return 0;
 }

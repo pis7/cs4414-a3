@@ -1,55 +1,9 @@
-#include <unordered_map>
-#include <cmath>
-#include <vector>
-#include <iostream>
 #include "Gene.hpp"
 
 const char Gene::CHAR_ARR[] = "AITY";
 
-// default constructor
-Gene::Gene() {
-    this->gene = "";
-    id = 0;
-}
-
-// string-only parameterized constructor
-Gene::Gene(const std::string &gene_){
-    this->gene = gene_;
-    id = 0;
-}
-
-// string and int parameterized constructor
-Gene::Gene(const std::string &gene_, int id_){
-    this->gene = gene_;
-    this->id = id_;
-}
-
-std::string Gene::get_gene() const {
-    return gene;
-}
-
-int Gene::get_id() const {
-    return id;
-}
-
-void Gene::set_id(int id_) {
-    this->id = id_;
-}
-
 void Gene::unique_push_back(std::vector<Gene>& gene_arr, const Gene& gene) {
     if (std::find(gene_arr.begin(), gene_arr.end(), gene) == gene_arr.end()) gene_arr.push_back(gene);
-}
-
-bool operator<(const Gene &a, const Gene &b) {
-    if (a.gene.size() != b.gene.size()) {
-        return a.gene.size() < b.gene.size();
-    } else {
-        return a.gene < b.gene;
-    }
-}
-
-bool operator==(const Gene &a, const Gene &b) {
-    return a.gene == b.gene;
 }
 
 int Gene::simple_score(std::string g0, std::string g1) const {

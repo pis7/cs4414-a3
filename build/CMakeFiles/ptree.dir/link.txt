@@ -1,0 +1,1 @@
+/usr/bin/c++ CMakeFiles/ptree.dir/Animal.cpp.o CMakeFiles/ptree.dir/Gene.cpp.o CMakeFiles/ptree.dir/PhylogenyTree.cpp.o CMakeFiles/ptree.dir/ptree.cpp.o -o ptree 

@@ -19,7 +19,7 @@ public:
     friend bool operator<(const Animal& a, const Animal& b) {return a.name < b.name;}
     friend bool operator>(const Animal& a, const Animal& b) {return a.name > b.name;}
     friend bool operator==(const Animal& a, const Animal& b) {return a.name == b.name;}
-    int distance(const Animal& other) const;
+    int distance(const Animal& other, std::vector<std::vector<int>>& gene_dist_matrix) const;
 private:
     std::string name;
     std::string latinName;

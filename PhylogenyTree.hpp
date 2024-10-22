@@ -11,7 +11,11 @@ public:
 
     class PhylogenyEdge {
     public:
-        PhylogenyEdge(const Animal& source_, const Animal& sink_) : source(source_), sink(sink_), weight(source.distance(sink)) {}
+        PhylogenyEdge(const Animal& source_, const Animal& sink_, std::vector<std::vector<int>>& animal_dist_matrix) : 
+            source(source_), 
+            sink(sink_), 
+            weight(animal_dist_matrix[source.get_id()][sink.get_id()]) 
+        {}
         friend bool operator>(const PhylogenyEdge& a, const PhylogenyEdge& b) {
             if (a.weight == b.weight) return a.sink > b.sink;
             else return a.weight > b.weight;
@@ -35,12 +39,12 @@ public:
     };
 
     typedef std::priority_queue<PhylogenyEdge, std::vector<PhylogenyEdge>, std::greater<PhylogenyEdge>> EdgeMinPqueue;
-    PhylogenyTree(const Animal& root_animal, std::vector<Animal> animals_to_add);
+    PhylogenyTree(const Animal& root_animal, std::vector<Animal> animals_to_add, std::vector<std::vector<int>>& animal_dist_matrix);
     ~PhylogenyTree();
     void print_tree(int level);
 private:
     std::list<PhylogenyNode*> nodes;
     bool animal_in_tree(const Animal& animal) const;
     PhylogenyNode* get_node(const Animal& animal);
-    void print_tree_rec(PhylogenyNode* node, int level, std::string tabs);
+    void print_tree_rec(PhylogenyNode* node, int level, std::vector<std::string>& collect_children);
 };

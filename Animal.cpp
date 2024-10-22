@@ -66,30 +66,26 @@ bool Animal::is_sibling(const Animal& other) const {
     return false;
 }
 
-int Animal::distance(const Animal& other) const {
+int Animal::distance(const Animal& other, std::vector<std::vector<int>>& gene_dist_matrix) const {
     if (is_sibling(other)) return 100000;
 
     int sum_a = 0;
     int closest_dist, this_dist;
     for (const auto& gene_a : dna) {
-        closest_dist = gene_a.distance(other.get_dna()[0]);
+        closest_dist = gene_dist_matrix[gene_a.get_id()][other.get_dna()[0].get_id()];
         for (const auto& gene_b : other.get_dna()) {
-            this_dist = gene_a.distance(gene_b);
-            if (this_dist < closest_dist) {
-                closest_dist = this_dist;
-            }
+            this_dist = gene_dist_matrix[gene_a.get_id()][gene_b.get_id()];
+            if (this_dist < closest_dist) closest_dist = this_dist;
         }
         sum_a += closest_dist;
     }
 
     int sum_b = 0;
     for (const auto& gene_b : other.get_dna()) {
-        closest_dist = gene_b.distance(dna[0]);
+        closest_dist = gene_dist_matrix[gene_b.get_id()][dna[0].get_id()];
         for (const auto& gene_a : dna) {
-            this_dist = gene_a.distance(gene_b);
-            if (this_dist < closest_dist) {
-                closest_dist = this_dist;
-            }
+            this_dist = gene_dist_matrix[gene_a.get_id()][gene_b.get_id()];
+            if (this_dist < closest_dist) closest_dist = this_dist;
         }
         sum_b += closest_dist;
     }

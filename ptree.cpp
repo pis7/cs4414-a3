@@ -90,12 +90,14 @@ int main(int argc, char *argv[])
     std::cout << std::endl;
 
     // Print out gene comparison matrix
+    std::vector<std::vector<int>> gene_dist_matrix(all_genes.size(), std::vector<int>(all_genes.size(), 0));
     for (size_t r = 0; r < all_genes.size() + 1; r++) {
         for (size_t c = 0; c < all_genes.size(); c++) {
             if (r == 0) { // Print column names on first row
                 std::cout << "G" << c << '\t';
             } else {
-                std::cout << all_genes[r - 1].distance(all_genes[c]) << '\t';
+                gene_dist_matrix[r - 1][c] = all_genes[r - 1].distance(all_genes[c]);
+                std::cout << gene_dist_matrix[r - 1][c] << '\t';
             }
             if (c == all_genes.size() - 1) std::cout << std::endl;
         }
@@ -121,12 +123,14 @@ int main(int argc, char *argv[])
     std::cout << std::endl;
 
     // Print out animal comparison matrix
+    std::vector<std::vector<int>> animal_dist_matrix(animals.size(), std::vector<int>(animals.size(), 0));;
     for (size_t r = 0; r < animals.size() + 1; r++) {
         for (size_t c = 0; c < animals.size(); c++) {
             if (r == 0) { // Print column names on first row
                 std::cout << "S" << c << '\t';
             } else {
-                std::cout << animals[r - 1].distance(animals[c]) << '\t';
+                animal_dist_matrix[r - 1][c] = animals[r - 1].distance(animals[c], gene_dist_matrix);
+                std::cout << animal_dist_matrix[r - 1][c] << '\t';
             }
             if (c == animals.size() - 1) std::cout << std::endl;
         }
@@ -135,7 +139,7 @@ int main(int argc, char *argv[])
     std::cout << std::endl;
 
     // Construct and print tree
-    PhylogenyTree phy_tree(animals[atoi(argv[1])], animals);
+    PhylogenyTree phy_tree(animals[atoi(argv[1])], animals, animal_dist_matrix);
     phy_tree.print_tree(atoi(argv[2]));
 
     return 0;
